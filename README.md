@@ -4,7 +4,7 @@
 Helper functions and class to retrieve information about the current route in Laravel.
 
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/permafrost-dev/laravel-current-route.svg?style=flat-square)](https://packagist.org/packages/permafrost-dev/laravel-current-route)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/permafrost-dev/laravel-current-route?label=version&sort=semver&style=flat-square)
 
 ---
 
