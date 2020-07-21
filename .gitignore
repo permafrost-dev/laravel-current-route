@@ -1,0 +1,9 @@
+.idea
+.vscode
+build
+composer.lock
+docs
+vendor
+coverage
+*.cache
+.phpunit.result.cache
