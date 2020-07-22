@@ -12,7 +12,11 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-          php: [7.3, 7.4]
+          php: [7.2, 7.3, 7.4]
+          
+    env:
+      extensions: mbstring, json
+      key: ext-cache-v1
 
     name: PHP${{ matrix.php }}
     steps:
@@ -31,11 +35,27 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-php-${{ matrix.php }}-composer-
 
+      - name: Setup PHP extension cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.extensions }}
+          key: ${{ env.key }}
+
+      - name: Cache PHP extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, intl, json
+          extensions: ${{ env.extensions }}
+          tools: prestissimo
           coverage: none
 
       - name: Install dependencies
