@@ -50,6 +50,7 @@ final class CurrentRouteInfo
     {
         $validNames = [
             'action',
+            'actionMethod',
             'name',
             'route',
             'uri',
@@ -68,6 +69,16 @@ final class CurrentRouteInfo
     public function action(): ?string
     {
         return optional($this->route)->getActionName();
+    }
+
+    /**
+     * Returns the current route's action method.
+     *
+     * @return string|null
+     */
+    public function actionMethod(): ?string
+    {
+        return optional($this->route)->getActionMethod();
     }
 
     /**
@@ -165,6 +176,6 @@ final class CurrentRouteInfo
      */
     public function middleware(): array
     {
-        return $this->route->controllerMiddleware();
+        return $this->route->gatherMiddleware();
     }
 }

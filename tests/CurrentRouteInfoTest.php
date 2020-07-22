@@ -57,6 +57,13 @@ class CurrentRouteInfoTest extends TestCase
         $this->assertSame('Controller@index', $info->action());
     }
 
+    public function test_current_route_info_action_method_name_result_is_correct(): void
+    {
+        $info = $this->getCurrentRouteInfoObject();
+
+        $this->assertSame('index', $info->actionMethod());
+    }
+
     public function test_current_route_info_named_method_is_correct(): void
     {
         $info = $this->getCurrentRouteInfoObject();

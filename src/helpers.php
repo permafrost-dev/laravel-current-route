@@ -32,14 +32,22 @@ function current_route_action(): ?string
 }
 
 /**
+ * Returns the action method name of the current route.
+ */
+function current_route_method(): ?string
+{
+    return current_route_info()->actionMethod;
+}
+
+/**
  * Returns true if one of the specified wildcard patterns matches the
  * name of the current route.
  *
- * @param array $namePatterns
+ * @param array|string $namePatterns
  *
- * @return mixed
+ * @return bool
  */
-function current_route_matches(array $namePatterns)
+function current_route_matches($namePatterns): bool
 {
     return current_route_info()->nameMatches($namePatterns);
 }
