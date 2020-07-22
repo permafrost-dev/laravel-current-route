@@ -22,7 +22,8 @@ class CurrentRouteInfoTest extends TestCase
         $routeStub->method('getActionName')->willReturn('Controller@index');
         $routeStub->method('getName')->willReturn('web.test.index');
         $routeStub->method('uri')->willReturn('/test');
-        $routeStub->method('controllerMiddleware')->willReturn(['web']);
+        $routeStub->method('gatherMiddleware')->willReturn(['web']);
+        $routeStub->method('middleware')->willReturn(['web']);
 
         $routerStub = $this->createStub(Router::class);
 

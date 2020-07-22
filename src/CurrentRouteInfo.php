@@ -78,7 +78,9 @@ final class CurrentRouteInfo
      */
     public function actionMethod(): ?string
     {
-        return optional($this->route)->getActionMethod();
+        $action = explode('@', $this->action() ?? '@');
+
+        return !empty(last($action)) ? last($action) : null;
     }
 
     /**
@@ -176,6 +178,6 @@ final class CurrentRouteInfo
      */
     public function middleware(): array
     {
-        return $this->route->gatherMiddleware();
+        return optional($this->route)->middleware() ?? [];
     }
 }
