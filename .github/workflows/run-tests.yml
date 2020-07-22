@@ -12,10 +12,10 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-          php: [7.2, 7.3, 7.4]
+          php: [7.3, 7.4]
           
     env:
-      extensions: mbstring, json
+      extensions: mbstring
       key: ext-cache-v1
 
     name: PHP${{ matrix.php }}
@@ -26,15 +26,6 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v2
-        with:
-          path: vendor
-          key: ${{ runner.os }}-node-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-php-${{ matrix.php }}-composer-
-
       - name: Setup PHP extension cache environment
         id: extcache
         uses: shivammathur/cache-extensions@v1
@@ -44,18 +35,27 @@ jobs:
           key: ${{ env.key }}
 
       - name: Cache PHP extensions
+        id: extensions-cache
         uses: actions/cache@v2
         with:
           path: ${{ steps.extcache.outputs.dir }}
           key: ${{ steps.extcache.outputs.key }}
           restore-keys: ${{ steps.extcache.outputs.key }}
 
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-node-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-php-${{ matrix.php }}-composer-
+            
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
-          tools: prestissimo
           coverage: none
 
       - name: Install dependencies
